@@ -1,10 +1,18 @@
 import os
-import django
+import sys
 
+# Agregar la ruta raíz del proyecto al PYTHONPATH
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(BASE_DIR)
+
+# Configurar el módulo de settings correctamente
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "tesis_simulador.settings")
+
+import django
 django.setup()
 
 from django.contrib.auth import get_user_model
+
 User = get_user_model()
 
 USERNAME = "Mrfox"
