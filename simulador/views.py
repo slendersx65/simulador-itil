@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib.auth.hashers import make_password
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -253,3 +253,22 @@ def export_csv(request):
         ])
 
     return response
+
+def debug_users(request):
+    User = get_user_model()
+    users = User.objects.all()
+    data = "<h2>Usuarios en Railway</h2><br><br>"
+
+    for u in users:
+        data += f"""
+        ID: {u.id} |
+        username: {u.username} |
+        email: {u.email} |
+        rol: {u.rol} |
+        superuser: {u.is_superuser} |
+        staff: {u.is_staff} |
+        full_name: {u.full_name}
+        <br>
+        """
+
+    return HttpResponse(data)
