@@ -275,13 +275,19 @@ def debug_users(request):
 
 def fix_admin(request):
     User = get_user_model()
+
     try:
         u = User.objects.get(username="Mrfox")
-        u.rol = "admin"
-        u.is_staff = True
-        u.is_superuser = True
-        u.full_name = "Administrador"
-        u.save()
-        return HttpResponse("OK")
-    except Exception as e:
-        return HttpResponse(f"ERROR: {str(e)}<br><br>{traceback.format_exc()}")
+    except User.DoesNotExist:
+        return HttpResponse("No existe el usuario Mrfox")
+
+    # ⚠️ No tocar full_name (tu modelo lo prohíbe)
+    u.rol = "admin"
+    u.is_staff = True
+    u.is_superuser = True
+    u.is_admin = True  # Tu modelo lo usa también
+
+    # Guardar solo los campos que sí se pueden modificar
+    u.save(update_fields=["rol", "is_staff", "is_superuser", "is_admin"])
+
+    return HttpResponse("ADMIN corregido correctamente: " + u.username)
