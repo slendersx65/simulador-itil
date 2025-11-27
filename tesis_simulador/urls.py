@@ -24,6 +24,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('simulador.urls')),
     path("debug_users/", debug_users),
-    path("fix_admin/", fix_admin),
+
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

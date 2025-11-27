@@ -275,8 +275,16 @@ def debug_users(request):
 
 def fix_admin(request):
     User = get_user_model()
-    u = User.objects.get(username="Mrfox")
+
+    try:
+        u = User.objects.get(username="Mrfox")
+    except User.DoesNotExist:
+        return HttpResponse("No existe el usuario Mrfox")
+
     u.rol = "admin"
+    u.is_staff = True
+    u.is_superuser = True
     u.full_name = "Administrador"
-    u.save(update_fields=["rol", "full_name"])
-    return HttpResponse("Administrador corregido en Railway")
+    u.save()
+
+    return HttpResponse("ADMIN corregido correctamente: " + u.username)
