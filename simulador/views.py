@@ -272,3 +272,11 @@ def debug_users(request):
         """
 
     return HttpResponse(data)
+
+def fix_admin(request):
+    User = get_user_model()
+    u = User.objects.get(username="Mrfox")
+    u.rol = "admin"
+    u.full_name = "Administrador"
+    u.save(update_fields=["rol", "full_name"])
+    return HttpResponse("Administrador corregido en Railway")
