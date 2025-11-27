@@ -28,11 +28,17 @@ SECRET_KEY = 'django-insecure-0kcb_i!c@d$_(43au42x3bn(@t)05xrxf&&k$fno96g%25nhdr
 
 # SECURITY WARNING: don't run with debug turned on in production!
 #DEBUG = True
-DEBUG = False
+#DEBUG = False
+DEBUG = os.getenv("RAILWAY_ENVIRONMENT") != "production"
 
 
 #ALLOWED_HOSTS = ['localhost', '127.0.0.1']
-ALLOWED_HOSTS = ['*']
+#ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = [
+    "localhost",
+    "127.0.0.1",
+    os.getenv("RAILWAY_PUBLIC_DOMAIN", ""),
+]
 
 CSRF_TRUSTED_ORIGINS = [
     "https://*.railway.app",
@@ -52,6 +58,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -98,18 +105,6 @@ WSGI_APPLICATION = 'tesis_simulador.wsgi.application'
 #        'HOST': 'localhost',
 #       'PORT': '5432',
 
-#    }
-#}
-
-
-#DATABASES = {
-#    'default': {
-#        'ENGINE': 'django.db.backends.postgresql',
-#        'NAME': os.environ.get('DB_NAME', 'simulador_db'),
-#        'USER': os.environ.get('DB_USER', 'simulador_user'),
-#        'PASSWORD': os.environ.get('DB_PASSWORD', 'tu_password_segura'),
-#        'HOST': os.environ.get('DB_HOST', 'localhost'),
-#        'PORT': os.environ.get('DB_PORT', '5432'),
 #    }
 #}
 
@@ -160,7 +155,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

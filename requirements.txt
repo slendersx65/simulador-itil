@@ -7,4 +7,4 @@ pillow
 sqlparse
 asgiref
 tzdata
- 
+whitenoise 
