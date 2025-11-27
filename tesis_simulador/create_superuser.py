@@ -1,20 +1,25 @@
+import os
+import django
+
+# --- CONFIGURAR DJANGO MANUALMENTE ---
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "tesis_simulador.settings")
+django.setup()
+
+# Ahora sí se pueden importar modelos
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
 USERNAME = "Mrfox"
-EMAIL = "admin@example.com"
+EMAIL = "Admin@example.com"
 PASSWORD = r"7tk3\9)9q>RT"
 
-user, created = User.objects.get_or_create(username=USERNAME, defaults={
-    "email": EMAIL,
-})
-
-user.is_superuser = True
-user.is_staff = True
-user.is_admin = True
-user.rol = "admin"
-user.set_password(PASSWORD)
-user.save()
-
-print("✔ Superusuario corregido/creado.")
+if not User.objects.filter(username=USERNAME).exists():
+    User.objects.create_superuser(
+        username=USERNAME,
+        email=EMAIL,
+        password=PASSWORD
+    )
+    print("✔ Superusuario creado correctamente.")
+else:
+    print("✔ El superusuario ya existe. No se volvió a crear.")
