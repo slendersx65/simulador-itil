@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container mt-4">
+  <h2 class="mb-4">Evaluación de Correos Electrónicos</h2>
+
+  <form method="post">
+    {% csrf_token %}
+
+    {% for correo in plantillas %}
+      <div class="card mb-4 shadow-sm">
+
+        <!-- Mostrar imagen si existe -->
+        {% if correo.imagen %}
+          <img src="{{ correo.imagen.url }}" class="card-img-top" style="max-height:380px; object-fit:contain;">
+        {% endif %}
+
+        <div class="card-body">
+
+          <!-- Renderizar el HTML del correo -->
+          <div class="border p-3 bg-light rounded mb-3">
+            {{ correo.cuerpo_html|safe }}
+          </div>
+
+          <div class="form-check">
+            <input class="form-check-input" type="radio"
+                   name="correo_{{ correo.id }}" value="phishing" required>
+            <label class="form-check-label">Phishing</label>
+          </div>
+
+          <div class="form-check">
+            <input class="form-check-input" type="radio"
+                   name="correo_{{ correo.id }}" value="legitimo" required>
+            <label class="form-check-label">Legítimo</label>
+          </div>
+
+        </div>
+      </div>
+    {% endfor %}
+
+    <button type="submit" class="btn btn-primary btn-lg mt-3">
+      Enviar evaluación
+    </button>
+  </form>
+
+</div>
+
+{% endblock %}
+
+

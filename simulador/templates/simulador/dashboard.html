@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Bienvenido, {{ request.user.full_name }}</h2>
+<p><a class="btn btn-primary" href="{% url 'simulador:evaluacion' %}">Ir a Evaluación</a></p>
+<p><a class="btn btn-secondary" href="#">Ir a Mini-curso</a></p>
+{% if request.user.is_staff or request.user.is_admin %}
+<p><a class="btn btn-danger" href="{% url 'simulador:export_csv' %}">Descargar CSV (admin)</a></p>
+{% endif %}
+{% endblock %}

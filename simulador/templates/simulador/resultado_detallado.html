@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+    body {
+        background: #0d1b2a !important;
+    }
+
+    .card-premium {
+        background: #1b263b;
+        border-radius: 15px;
+        padding: 25px;
+        margin-bottom: 25px;
+        border: none;
+        box-shadow: 0px 4px 18px rgba(0,0,0,.35);
+        animation: fadeIn 0.4s ease;
+    }
+
+    h2, h5, p {
+        color: #e0e1dd;
+    }
+
+    hr {
+        border-color: #415a77;
+    }
+
+    .img-premium {
+        width: 100%;
+        max-height: 550px;
+        object-fit: contain;
+        border: 3px solid #415a77;
+        border-radius: 10px;
+        background: black;
+    }
+
+    .progress {
+        background: #415a77;
+        border-radius: 20px;
+    }
+
+    .progress-bar {
+        font-size: 17px;
+        font-weight: bold;
+        border-radius: 20px;
+    }
+
+    .btn-dashboard {
+        font-size: 20px;
+        padding: 12px 24px;
+        border-radius: 12px;
+        font-weight: bold;
+        background: #3a86ff;
+        color: white;
+        transition: .3s;
+    }
+
+    .btn-dashboard:hover {
+        transform: scale(1.05);
+        background: #559cff;
+        color: white;
+        box-shadow: 0px 4px 15px rgba(255,255,255,0.15);
+    }
+</style>
+
+<div class="container mt-5" style="max-width: 950px;">
+
+    <div class="text-center mb-5">
+        <h2 class="fw-bold">Resultados de tu Evaluación</h2>
+
+        <p class="lead">
+            Puntaje final:
+            <span class="fw-bold {% if porcentaje >= 70 %}text-success{% else %}text-danger{% endif %}">
+                {{ porcentaje }}%
+            </span>
+        </p>
+
+        <div class="progress mb-4" style="height: 28px;">
+            <div class="progress-bar {% if porcentaje >= 70 %}bg-success{% else %}bg-danger{% endif %}"
+                 style="width: {{ porcentaje }}%">
+                {{ porcentaje }}%
+            </div>
+        </div>
+
+        <!-- Botón para volver al dashboard -->
+        <a href="/dashboard_alumno/" class="btn-dashboard">⬅ Volver al Dashboard</a>
+    </div>
+
+    <hr>
+
+    {% for d in detalles %}
+    <div class="card-premium">
+
+        <h5 class="fw-bold">Pregunta {{ forloop.counter }}</h5>
+
+        <div class="text-center my-3">
+            <img src="{{ d.pregunta.imagen.url }}" class="img-premium">
+        </div>
+
+        <p><b>Tu respuesta:</b>
+            <span class="{% if d.es_correcta %}text-success{% else %}text-danger{% endif %}">
+                {{ d.respondio|title }}
+            </span>
+        </p>
+
+        <p><b>Respuesta correcta:</b>
+            <span class="text-primary fw-bold">
+                {{ d.correcta|title }}
+            </span>
+        </p>
+
+        {% if d.es_correcta %}
+            <p class="text-success fw-bold">✔ ¡Respuesta correcta!</p>
+        {% else %}
+            <p class="text-danger fw-bold">✘ Respuesta incorrecta</p>
+
+            {% if d.consejo %}
+            <div class="alert alert-warning mt-2">
+                <b>Consejo:</b> {{ d.consejo }}
+            </div>
+            {% endif %}
+        {% endif %}
+
+    </div>
+    {% endfor %}
+
+</div>
+
+{% endblock %}

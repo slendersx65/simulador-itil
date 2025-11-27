@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+.card-dashboard {
+    background: #1b263b;
+    border-radius: 18px;
+    padding: 25px;
+    color: white;
+    box-shadow: 0px 4px 18px rgba(0,0,0,.35);
+    transition: .3s;
+}
+.card-dashboard:hover {
+    transform: scale(1.02);
+    box-shadow: 0px 6px 25px rgba(255,255,255,.1);
+}
+.btn-premium {
+    padding: 14px 20px;
+    font-size: 18px;
+    border-radius: 12px;
+    font-weight: bold;
+}
+</style>
+
+<h2 class="fw-bold mb-4">🎓 Bienvenido, {{ request.user.full_name }}</h2>
+<p class="text-info">Rol: Alumno</p>
+
+<div class="row mt-4">
+
+    <div class="col-md-6 mb-4">
+        <div class="card-dashboard">
+            <h4 class="fw-bold">📘 Mini Curso</h4>
+            <p>Revisa conceptos clave para identificar correos phishing.</p>
+
+            <a href="{% url 'simulador:ver_minicurso' %}" class="btn btn-info btn-premium mt-2">
+                Ver Mini Curso
+            </a>
+        </div>
+    </div>
+
+    <div class="col-md-6 mb-4">
+        <div class="card-dashboard">
+            <h4 class="fw-bold">🛡️ Evaluación</h4>
+            <p>Evalúa tu capacidad para detectar correos peligrosos.</p>
+
+            <a href="{% url 'simulador:pregunta' 1 %}" class="btn btn-success btn-premium mt-2">
+                Realizar Evaluación
+            </a>
+        </div>
+    </div>
+
+</div>
+
+<a href="{% url 'simulador:logout' %}" class="btn btn-outline-danger mt-3">
+    Cerrar sesión
+</a>
+
+{% endblock %}

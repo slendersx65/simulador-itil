@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Inicio de sesión - Administrador</h2>
+<form method="post" class="mt-3">{% csrf_token %}
+  <div class="mb-2">
+    <label>Usuario:</label>
+    <input type="text" name="username" class="form-control" required>
+  </div>
+  <div class="mb-2">
+    <label>Contraseña:</label>
+    <input type="password" name="password" class="form-control" required>
+  </div>
+  <button class="btn btn-primary">Ingresar</button>
+</form>
+{% if messages %}
+  {% for m in messages %}
+    <div class="alert alert-danger mt-2">{{ m }}</div>
+  {% endfor %}
+{% endif %}
+{% endblock %}

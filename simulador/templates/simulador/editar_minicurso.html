@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+  <h2>Editar Mini Curso</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary mt-2">Guardar Cambios</button>
+    <a href="{% url 'simulador:dashboard_admin' %}" class="btn btn-secondary mt-2">Cancelar</a>
+  </form>
+  {% if messages %}
+    {% for m in messages %}
+      <div class="alert alert-success mt-3">{{ m }}</div>
+    {% endfor %}
+  {% endif %}
+</div>
+{% endblock %}

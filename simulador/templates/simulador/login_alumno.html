@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Inicio de sesión - Alumno</h2>
+<form method="post" class="mt-3">{% csrf_token %}
+  <div class="mb-2">
+    <label>Usuario:</label>
+    <input type="text" name="username" class="form-control" required>
+  </div>
+  <div class="mb-2">
+    <label>Contraseña:</label>
+    <input type="password" name="password" class="form-control" required>
+  </div>
+  <button class="btn btn-success">Entrar</button>
+  <p class="mt-3">
+    ¿No tienes cuenta? <a href="{% url 'simulador:registro_alumno' %}">Regístrate aquí</a>
+
+</p>
+
+</form>
+{% if messages %}
+  {% for m in messages %}
+    <div class="alert alert-danger mt-2">{{ m }}</div>
+  {% endfor %}
+{% endif %}
+{% endblock %}

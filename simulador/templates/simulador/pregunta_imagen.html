@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+    /* Fondo suave azul ciberseguridad */
+    body {
+        background: #0d1b2a !important;
+    }
+
+    .card-premium {
+        background: #1b263b;
+        border: none;
+        border-radius: 15px;
+        padding: 25px;
+        box-shadow: 0px 4px 18px rgba(0, 0, 0, 0.35);
+        animation: fadeIn 0.4s ease;
+    }
+
+    h3, p, label {
+        color: #e0e1dd;
+    }
+
+    /* Animación premium */
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Botones premium */
+    .btn-premium {
+        padding: 14px 26px;
+        font-size: 20px;
+        border-radius: 12px;
+        font-weight: bold;
+        transition: 0.25s;
+    }
+
+    .btn-premium:hover {
+        transform: scale(1.07);
+        box-shadow: 0px 5px 15px rgba(255,255,255,0.15);
+    }
+
+    .img-premium {
+    width: 100%;
+    max-width: 1500px;       /* La imagen nunca pierde su resolución real */
+    height: auto;            /* Mantiene proporciones, NO aplasta */
+    border-radius: 12px;
+    border: 3px solid #415a77;
+    display: block;
+    margin: 0 auto;
+    background: black;
+}
+
+</style>
+
+<div class="container mt-5" style="max-width: 1600px;">
+
+
+    <div class="card-premium">
+
+        <h3 class="text-center fw-bold">
+            Pregunta {{ numero }} de {{ total }}
+        </h3>
+
+        <hr style="border-color: #415a77;">
+
+        <!-- Imagen grande, nítida -->
+        <div class="text-center">
+            <img src="{{ pregunta.imagen.url }}" class="img-premium mb-4">
+        </div>
+
+        <form method="POST" class="text-center mt-4">
+            {% csrf_token %}
+
+            <p class="lead">¿Este correo es…?</p>
+
+            <button class="btn btn-danger btn-premium m-2" 
+                    name="respuesta" value="phishing">
+                🔥 Es Phishing
+            </button>
+
+            <button class="btn btn-success btn-premium m-2" 
+                    name="respuesta" value="legitimo">
+                ✔ Es Legítimo
+            </button>
+
+            {% if numero == total %}
+                <p class="text-warning mt-3">Esta es la última pregunta</p>
+            {% endif %}
+        </form>
+    </div>
+</div>
+
+{% endblock %}

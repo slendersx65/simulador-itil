@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+  {% if minicurso %}
+    <div class="card shadow-lg p-4 border-0">
+      <h2 class="mb-3 text-primary">{{ minicurso.titulo }}</h2>
+      <p class="text-muted">{{ minicurso.descripcion }}</p>
+      <hr>
+      <div class="mt-3 contenido-curso">
+        {{ minicurso.contenido_html|safe }}
+      </div>
+    </div>
+  {% else %}
+    <div class="alert alert-warning mt-4">
+      <strong>Atención:</strong> Aún no hay contenido disponible en el mini curso.
+    </div>
+  {% endif %}
+  <a href="{% url 'simulador:dashboard_alumno' %}" class="btn btn-secondary mt-4">Volver al Dashboard</a>
+</div>
+
+<style>
+  /* Estilos adicionales para el contenido del mini curso */
+  .contenido-curso img {
+    max-width: 100%;
+    border-radius: 10px;
+    margin: 10px 0;
+  }
+  .contenido-curso iframe {
+    width: 100%;
+    height: 360px;
+    border: none;
+    border-radius: 10px;
+    margin-top: 10px;
+  }
+  .contenido-curso p {
+    line-height: 1.6;
+    font-size: 1rem;
+  }
+</style>
+{% endblock %}

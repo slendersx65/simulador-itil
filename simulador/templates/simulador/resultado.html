@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+  {% if messages %}
+    {% for m in messages %}
+      <div class="alert alert-{{ m.tags }}">{{ m }}</div>
+    {% endfor %}
+  {% endif %}
+
+  {% if evaluacion %}
+    <h3>Resultados</h3>
+    <p><strong>Aciertos:</strong> {{ evaluacion.aciertos }} / {{ evaluacion.total }}</p>
+    <p><strong>Porcentaje:</strong> {{ evaluacion.porcentaje }}%</p>
+    <p><strong>Fecha:</strong> {{ evaluacion.fecha }}</p>
+  {% else %}
+    <p>No se encontraron resultados previos.</p>
+  {% endif %}
+
+  <a href="{% url 'dashboard_alumno' %}" class="btn btn-secondary mt-3">Volver al Dashboard</a>
+</div>
+{% endblock %}
+
+

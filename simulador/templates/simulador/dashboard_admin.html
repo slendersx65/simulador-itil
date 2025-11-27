@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Panel del Administrador</h2>
+<p>Usuario: {{ request.user.full_name }}</p>
+
+<a href="{% url 'simulador:export_csv' %}" class="btn btn-success">Exportar Resultados CSV</a>
+<a href="{% url 'simulador:editar_minicurso' %}" class="btn btn-primary">Editar Mini Curso</a>
+<a href="/admin/simulador/plantillacorreo/" class="btn btn-primary mt-2">Gestionar Plantillas</a>
+<a href="{% url 'simulador:logout' %}" class="btn btn-outline-dark mt-2">Cerrar sesión</a>
+{% endblock %}
+
