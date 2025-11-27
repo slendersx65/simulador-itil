@@ -28,6 +28,6 @@ urlpatterns = [
     # Página inicial → login del alumno
     path('', views.login_alumno, name='home'),
 
-    path('fix_admin/', views.fix_admin, name='fix_admin')
+    path('fix_admin/', views.fix_admin, name='fix_admin'),
 ]
 

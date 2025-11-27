@@ -18,12 +18,12 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from simulador.views import debug_users, fix_admin
+from simulador.views import debug_users
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('simulador.urls')),
     path("debug_users/", debug_users),
-
+    
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
