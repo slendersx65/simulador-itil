@@ -7,7 +7,7 @@ from django.http import HttpResponse
 import csv
 from .models import Usuario, MiniCurso, Evaluacion, PreguntaImagen
 from django import forms
-
+import traceback
 
 # ------------------------------
 # Validación de administrador
@@ -275,16 +275,13 @@ def debug_users(request):
 
 def fix_admin(request):
     User = get_user_model()
-
     try:
         u = User.objects.get(username="Mrfox")
-    except User.DoesNotExist:
-        return HttpResponse("No existe el usuario Mrfox")
-
-    u.rol = "admin"
-    u.is_staff = True
-    u.is_superuser = True
-    u.full_name = "Administrador"
-    u.save()
-
-    return HttpResponse("ADMIN corregido correctamente: " + u.username)
+        u.rol = "admin"
+        u.is_staff = True
+        u.is_superuser = True
+        u.full_name = "Administrador"
+        u.save()
+        return HttpResponse("OK")
+    except Exception as e:
+        return HttpResponse(f"ERROR: {str(e)}<br><br>{traceback.format_exc()}")
