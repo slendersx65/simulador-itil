@@ -26,27 +26,23 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-0kcb_i!c@d$_(43au42x3bn(@t)05xrxf&&k$fno96g%25nhdr'
 
+if os.environ.get('FLY_APP_NAME'):
+    DEBUG = False
+
 # SECURITY WARNING: don't run with debug turned on in production!
 #DEBUG = True
-#DEBUG = False
-DEBUG = os.getenv("DEBUG", "False").lower() == "true"
-
+ 
 #ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 #ALLOWED_HOSTS = ['*']
 # ✅ Mejor configuración
 
 ALLOWED_HOSTS = [
-    "localhost",
-    "127.0.0.1", 
-    ".railway.app",
-    os.getenv("RAILWAY_STATIC_URL", ""),
-]
-
-CSRF_TRUSTED_ORIGINS = [
-    "https://*.railway.app",
-]
-
+        'localhost',
+        '127.0.0.1',
+        '.fly.dev'  # Para tu dominio de Fly.io
+    ]
 # Application definition
+CSRF_TRUSTED_ORIGINS = ['https://*.fly.dev']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -111,12 +107,13 @@ WSGI_APPLICATION = 'tesis_simulador.wsgi.application'
 #}
 
 DATABASES = {
-    'default': dj_database_url.config(
-        default=os.getenv("DATABASE_URL"),
-        conn_max_age=600,
-        ssl_require=True
-    )
-} 
+        'default': dj_database_url.config(
+            default=os.environ.get('DATABASE_URL'),
+            conn_max_age=600,
+            conn_health_checks=True,
+            ssl_require=True
+        )
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
@@ -155,8 +152,11 @@ MEDIA_ROOT = '/app/media'
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = '/app/staticfiles' 
+STATIC_ROOT = '/app/staticfiles'
 
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # Default primary key field type
@@ -164,5 +164,7 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+SECURE_SSL_REDIRECT = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
 

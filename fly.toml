@@ -1,0 +1,39 @@
+# Nombre de la aplicación en Fly.io. Debe coincidir con el nombre de tu app.
+app = "simulador-itil"
+
+# Sección de configuración de construcción. Se deja vacía ya que Fly.io
+# detectará automáticamente el Dockerfile.
+[build]
+
+# Configuración del servicio HTTP.
+[http_service]
+  # Puerto interno donde tu aplicación (Gunicorn) está escuchando, 
+  # que coincide con el EXPOSE 8000 del Dockerfile.
+  internal_port = 8000
+  # Forzar la redirección de todo el tráfico a HTTPS.
+  force_https = true
+  
+  # Definición de puertos externos
+  [[http_service.ports]]
+    # Manejar tráfico HTTP en el puerto 80 (luego forzado a 443 por force_https)
+    handlers = ["http"]
+    port = 80
+
+  [[http_service.ports]]
+    # Manejar tráfico TLS (HTTPS) y HTTP en el puerto 443
+    handlers = ["tls", "http"]
+    port = 443
+
+# Variables de entorno
+[env]
+  # Deshabilita el modo debug de Django, crucial para producción
+  DEBUG = "false"
+
+# Configuración de la máquina virtual (VM)
+[[vm]]
+  # Tipo de CPU
+  cpu_kind = "shared"
+  # Número de CPUs
+  cpus = 1
+  # Memoria asignada
+  memory_mb = 1024
