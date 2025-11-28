@@ -29,15 +29,17 @@ SECRET_KEY = 'django-insecure-0kcb_i!c@d$_(43au42x3bn(@t)05xrxf&&k$fno96g%25nhdr
 # SECURITY WARNING: don't run with debug turned on in production!
 #DEBUG = True
 #DEBUG = False
-DEBUG = os.getenv("RAILWAY_ENVIRONMENT") != "production"
-
+DEBUG = os.getenv("DEBUG", "False").lower() == "true"
 
 #ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 #ALLOWED_HOSTS = ['*']
+# ✅ Mejor configuración
+
 ALLOWED_HOSTS = [
     "localhost",
-    "127.0.0.1",
-    os.getenv("RAILWAY_PUBLIC_DOMAIN", ""),
+    "127.0.0.1", 
+    ".railway.app",
+    os.getenv("RAILWAY_STATIC_URL", ""),
 ]
 
 CSRF_TRUSTED_ORIGINS = [
@@ -153,7 +155,7 @@ MEDIA_ROOT = '/app/media'
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = '/app/staticfiles' 
 
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
@@ -162,5 +164,5 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
